@@ -4,7 +4,7 @@ outfile=""
 uuidcmd="uuid"
 
 if hash $uuidcmd 2>/dev/null; then
-    outfile="cat-$(uuid)".jpg
+    outfile="person-$(uuid)".jpg
     echo "Saving cat image: $outfile"
 else
     echo "---------------------------------------------"
