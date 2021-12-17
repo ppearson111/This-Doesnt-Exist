@@ -1,0 +1,19 @@
+#!/bin/sh
+
+outfile=""
+uuidcmd="uuid"
+
+if hash $uuidcmd 2>/dev/null; then
+    outfile="cat-$(uuid)".jpg
+    echo "Saving cat image: $outfile"
+else
+    echo "---------------------------------------------"
+    echo "This utility requires the command: $uuidcmd"
+    echo "To insall it you can run the command..."
+    echo "> brew install ossp-uuid"
+    echo "which will install the $uuidcmd utility via brew"
+    echo "---------------------------------------------"
+    exit
+fi
+
+curl --output $outfile  https://www.thispersondoesnotexist.com/image
