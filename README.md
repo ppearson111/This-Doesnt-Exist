@@ -7,3 +7,5 @@ After cloning this repo, run 'chmod a+x getcat' and 'chmod a+x getperson' to set
 
 When in any folder just run the command 'getcat' or 'getperson' to download a random image of a cat/person that doesn't actually exist.
 Enjoy!
+
+Nice!
