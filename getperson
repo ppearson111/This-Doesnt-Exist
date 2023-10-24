@@ -2,10 +2,16 @@
 
 outfile=""
 uuidcmd="uuid"
+urlbase="https://this-person-does-not-exist.com"
+# Params:
+#    gender: male|female|all
+#    age= 26-35 : 19-25
+#    etnic = white : all
+# https://this-person-does-not-exist.com/new?time=1698162368550&gender=&age=26-35&etnic=all
 
 if hash $uuidcmd 2>/dev/null; then
     outfile="person-$(uuid)".jpg
-    echo "Saving cat image: $outfile"
+    echo "Saving person image: $outfile"
 else
     echo "---------------------------------------------"
     echo "This utility requires the command: $uuidcmd"
@@ -15,5 +21,28 @@ else
     echo "---------------------------------------------"
     exit
 fi
+timestamp=$(date +'%s')
+url="$urlbase/new?time=$timestamp&gender=all&age=26-35&etnic=all"
+response=$(curl -s -H "Content-Type: application/json" -X GET "$url")
 
-curl --output $outfile  https://www.thispersondoesnotexist.com/image
+# Check if the response is valid JSON
+if [[ $(echo $response | jq . 2>/dev/null) ]]; then
+    generated=$(echo $response | jq -r '.generated')
+    url=$(echo $response | jq -r '.src')
+    name=$(echo $response | jq -r '.name')
+    filename=$(basename "$url")
+    imageurl="$urlbase$url"
+    # Now, you have the values in variables
+    # echo "generated: $generated"
+    # echo "url: $url"
+    # echo "name: $name"
+    # echo "filename: $filename"
+
+    echo "Getting image: $imageurl..."
+    curl --output $filename  $imageurl 
+
+else
+    echo "Invalid JSON response"
+fi
+
+# curl --output $outfile  https://www.thispersondoesnotexist.com/image
